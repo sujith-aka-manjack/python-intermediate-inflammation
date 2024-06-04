@@ -66,13 +66,13 @@ def test_daily_min(test, expected):
 #     # Need to use Numpy testing functions to compare arrays
 #     npt.assert_array_equal(daily_min(test_input), test_result)
 
-# def test_load_from_json(tmpdir):
-#     from inflammation.models import load_json
-#     example_path = os.path.join(tmpdir, 'example.json')
-#     with open(example_path, 'w') as temp_json_file:
-#         temp_json_file.write('[{"observations":[1, 2, 3]},{"observations":[4, 5, 6]}]')
-#     result = load_json(example_path)
-#     npt.assert_array_equal(result, [[1, 2, 3], [4, 5, 6]])
+def test_load_from_json(tmpdir):
+    from inflammation.models import load_json
+    example_path = os.path.join(tmpdir, 'example.json')
+    with open(example_path, 'w') as temp_json_file:
+        temp_json_file.write('[{"observations":[1, 2, 3]},{"observations":[4, 5, 6]}]')
+    result = load_json(example_path)
+    npt.assert_array_equal(result, [[1, 2, 3], [4, 5, 6]])
 
 # def test_daily_min_string():
 #     """Test for TypeError when passing strings"""
