@@ -4,14 +4,14 @@
 import argparse
 import os
 
-from inflammation import models, views
+from inflammation import models, views,compute_data
 from inflammation.compute_data import analyse_data
 
 
 def main(args):
     """The MVC Controller of the patient inflammation data system.
 
-    The Controller is responsible for:
+    The Controller is responsible for:s
     - selecting the necessary models and views for the current task
     - passing data between models and views
     """
@@ -21,7 +21,18 @@ def main(args):
 
 
     if args.full_data_analysis:
-        analyse_data(os.path.dirname(InFiles[0]))
+        _, extension = os.path.splitext(InFiles[0])
+        if extension == '.json':
+            data_source = compute_data.JSONDataSource(os.path.dirname(InFiles[0]))
+        elif extension == '.csv':
+            data_source = compute_data.CSVDataSource(os.path.dirname(InFiles[0]))
+        else:
+            raise ValueError(f'Unsupported file format: {extension}')
+        data_result = analyse_data(data_source)
+        graph_data = {
+        'standard deviation by day': data_result,
+                     }
+        views.visualize(graph_data)
         return
 
     for filename in InFiles:
